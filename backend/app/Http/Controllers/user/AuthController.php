@@ -183,11 +183,13 @@ use Illuminate\Validation\ValidationException;
      public function signIn(Request $request){
          return new UserResource($request->user());
      }
- 
-     private function setAccessToken(User $user, Request $request) 
-     {
-         return  $this->cookieService
-             ->setcookie(User::$KEY_ACCESS_TOKEN, $user, 60 * 24 *7, );
-     }
- 
- }
+
+
+
+    private function setAccessToken(User $user, Request $request) 
+    {
+        return  $this->cookieService
+            ->setcookie(User::$KEY_ACCESS_TOKEN, $user, 60 * 24 *7, );
+    }
+
+}
