@@ -11,8 +11,10 @@ use App\services\CookieService;
 use App\services\UserResolverService;
 
 use App\utils\HttpStatusCode;
-
+// use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Contracts\Routing\ResponseFactory;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -106,7 +108,7 @@ use Illuminate\Validation\ValidationException;
      public function logout(Request $request){
          $request->user()->tokens()->delete();
          $this->userResolverService->removeUser($request);
-         return response(status: HttpStatusCode::$HTTP_NO_CONTENT);
+         return response()->noContent();
      }
  
      /**
