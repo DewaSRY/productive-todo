@@ -5,6 +5,191 @@
         "version": "1.0"
     },
     "paths": {
+        "/api/todos": {
+            "get": {
+                "tags": [
+                    "Todos"
+                ],
+                "summary": "Get list of todos",
+                "description": "Returns paginated list of todos with optional filters",
+                "operationId": "getTodos",
+                "parameters": [
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "description": "Start date for filtering",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "description": "End date for filtering",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "is_completed",
+                        "in": "query",
+                        "description": "Filter by completion status",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\todo\\TodoResources"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Todos"
+                ],
+                "summary": "Create a new todo",
+                "description": "Creates a new todo item for the authenticated user",
+                "operationId": "createTodo",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "App\\Http\\Requests\\todo\\TodoRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Todo created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\todo\\TodoResources"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/todos/{id}": {
+            "get": {
+                "tags": [
+                    "Todos"
+                ],
+                "summary": "Get a specific todo",
+                "description": "Returns a specific todo item by ID",
+                "operationId": "getTodoById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the todo to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Todo retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\todo\\TodoResources"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Todo not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Todos"
+                ],
+                "summary": "Update a specific todo",
+                "description": "Updates an existing todo item",
+                "operationId": "updateTodo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the todo to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "App\\Http\\Requests\\todo\\TodoRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Todo updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "App\\Http\\Resources\\todo\\TodoResources"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Todo not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/user/login": {
             "post": {
                 "tags": [
@@ -186,6 +371,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Todos",
+            "description": "Todos"
+        },
         {
             "name": "Authentication",
             "description": "Authentication"
