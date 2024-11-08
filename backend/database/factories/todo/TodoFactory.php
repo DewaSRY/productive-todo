@@ -21,7 +21,7 @@ class TodoFactory extends Factory
     public function definition(): array
     {
         return [
-            "title"=> $this->faker->text(10), 
+            "title"=> $this->faker->sentence(10), 
              "is_completed"=> $this->faker->boolean(),
              "description"=> $this->faker->paragraph(2, true),
              "priority"=> $this->faker->randomElement(array_keys(Priority::$data)),

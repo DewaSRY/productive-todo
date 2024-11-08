@@ -14,11 +14,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create()->each(function ($user) {
+        User::factory()->create([
+            "email"=> "newuser@example.com"
+        ]);
+        User::factory(9)->create();
+
+        $users= User::all();
+        foreach($users as $user){
             Todo::factory(10)->create([
                 'user_id' => $user->id,
             ]);
-        });
+        }
+
+        
 
     }
 }
