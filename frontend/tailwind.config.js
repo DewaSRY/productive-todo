@@ -32,9 +32,18 @@ module.exports = {
           two: '#888EDD',
           three: '#D7D9F4',
         },
+
+        natural: {
+          one: '#F8F6F4',
+          two: '#E3F4F4',
+          three: '#D2E9E9',
+        },
+
       },
     },
   },
   plugins: [],
 }
+
+
 
