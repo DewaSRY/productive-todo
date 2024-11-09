@@ -2,13 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { IndexRoutingModule } from './index-routing.module';
+import { LayoutModule } from '@app/layout/layout.module';
+import { HomeComponent } from './component/home/home.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [HomeComponent],
   imports: [
     CommonModule,
-    IndexRoutingModule
+    IndexRoutingModule,
+    LayoutModule
   ]
 })
 export class IndexModule { }
