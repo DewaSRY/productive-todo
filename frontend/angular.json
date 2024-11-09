@@ -32,7 +32,9 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.css",
+              "src/custom-theme.scss",
+              "src/m3-theme.scss"
             ],
             "scripts": []
           },
