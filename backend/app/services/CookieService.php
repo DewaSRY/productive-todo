@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use App\Http\Resources\user\AuthResources;
 
 class CookieService
 {
@@ -15,12 +16,8 @@ class CookieService
         ?int $duration= 60
     ): Response | JsonResponse
     {
-
         $token= $user->createToken('api-token')->plainTextToken;
-        return response()->json([
-            "token" => $token,
-            "data" => $user,
-        ])->cookie(
+        return response()->json(new AuthResources($user, $token))->cookie(
             $key,          // Cookie name
             $token,        // Cookie value (the token)
             $duration,     // Cookie expiration time in minutes

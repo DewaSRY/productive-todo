@@ -7,6 +7,10 @@ use Illuminate\Support\ServiceProvider;
 use App\services\CookieService;
 use App\services\UserResolverService;
 
+use Illuminate\Support\Str;
+use Dedoc\Scramble\Scramble;
+use Illuminate\Routing\Route;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Scramble::routes(function (Route $route) {
+            return Str::startsWith($route->uri, 'api/');
+        });
     }
 }

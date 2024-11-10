@@ -5,8 +5,17 @@ namespace App\Http\Resources\user;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class AuthResources extends JsonResource
 {
+    private string $accessToken;
+
+    public function __construct($model, string $accessToken)
+    {
+        // Pass the model to the parent constructor
+        parent::__construct($model);
+        $this->accessToken = $accessToken;
+    }
+
     /**
      * Transform the resource into an array.
      *
@@ -15,6 +24,7 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'token' => $this->accessToken,
             'data' => [
                 "id"=> $this->id,
                 "name"=> $this->name,

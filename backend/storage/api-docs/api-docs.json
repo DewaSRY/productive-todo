@@ -190,39 +190,11 @@
                 ]
             }
         },
-        "/api/user/login": {
+        "/api/login": {
             "post": {
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "Login to the application",
-                "operationId": "941add11500b88edb899b8add90684f5",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "email",
-                                    "password"
-                                ],
-                                "properties": {
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email",
-                                        "example": "user@example.com"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "format": "password",
-                                        "example": "password123"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
+                "summary": "User login",
+                "description": "Authenticates the user and returns an access token and user information",
+                "operationId": "f02d0a523d60333a6bd3865dfb672c78",
                 "responses": {
                     "200": {
                         "description": "Successful login",
@@ -230,9 +202,41 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "access_token": {
+                                        "token": {
                                             "type": "string",
-                                            "example": "your_access_token_here"
+                                            "example": "3|ztQcSvzMD178jDEz1SQyc80FoE4lCvZmAkvRtfsL2262eb6b"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Ray Torp"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "newuser@example.com"
+                                                },
+                                                "email_verified_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-11-07T01:36:40.000000Z"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-11-07T01:36:40.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-11-07T01:36:40.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -241,7 +245,20 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthorized - Invalid credentials"
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
