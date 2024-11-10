@@ -84,7 +84,7 @@ class AuthController extends Controller
     {
         $request->user()->tokens()->delete();
         $this->userResolverService->removeUser($request);
-        return response()->noContent();
+        return $this->cookieService->cleantTheCookie(User::$KEY_ACCESS_TOKEN);
     }
 
     /**

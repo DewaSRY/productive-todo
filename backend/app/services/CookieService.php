@@ -36,4 +36,7 @@ class CookieService
         return $request->cookie($key);
     }
 
+    public function cleantTheCookie(string $key){
+        return response()->noContent()->withCookie(cookie()->forget($key));
+    }
 }
