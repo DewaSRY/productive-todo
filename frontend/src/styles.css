@@ -4,11 +4,6 @@
 @tailwind utilities;
 
 html, body { height: 100%; }
-body {
-     margin: 0;
-     font-family: Inter, "Helvetica Neue", sans-serif; 
-     background-color: whitesmoke;
-}
 
 :root{
      --head-one: 47.78px;
@@ -45,11 +40,17 @@ body {
      --priority-three: #D7D9F4;
 
      --natural-one: #F8F6F4;
-     --natural-two: #E3F4F4;
-     --natural-three: #D2E9E9;
+     --natural-two: #f7f7f7;
+     --natural-three: #ebebeb;
 
      
 }
+body {
+     margin: 0;
+     font-family: Inter, "Helvetica Neue", sans-serif; 
+     background-color: var(--natural-two);
+}
+
 
 h1{
      font-size: var(--head-one);
@@ -96,5 +97,6 @@ h1,h2,h3,h4,h5,h6{
 }
 
 p{
-   font-weight: 400;  
+   font-weight: 600;
+   color: var(--text);
 }
