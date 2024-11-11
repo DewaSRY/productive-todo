@@ -1,9 +1,9 @@
-<header class="fixed inset-x-0 top-0 py-1 px-8 flex justify-between bg-natural-one h-[80px] items-center">
+<header class="fixed inset-x-0 top-0 py-1 px-8 flex justify-between z-50 bg-natural-one h-[80px] items-center">
     <div class="">
         <div>
             <h4>Productive TODO .</h4>
         </div>
-   
+
     </div>
     <div>
         @if (auth$ | async) {
@@ -19,8 +19,8 @@
             </ul>
         } @else{
             <button role="link" mat-flat-button>
-                <a [routerLink]="['auth', authLink]" mat-button>
-                    {{authLink}}
+                <a [routerLink]="['auth']"  target="_blank" mat-button>
+                   Login
                 </a>
             </button>
         }

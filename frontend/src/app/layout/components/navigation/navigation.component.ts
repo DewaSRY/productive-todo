@@ -16,7 +16,6 @@ export class NavigationComponent {
   private readonly services = {
     authServices: inject(AuthService),
     destroyRef: inject(DestroyRef),
-    authQuery: inject(AuthQueryService)
   }
 
   auth$= new BehaviorSubject(false)
@@ -24,14 +23,9 @@ export class NavigationComponent {
   authLink : "login" | "signup" = "login"
  
   ngOnInit(): void {
-    this.setupParamObserver()
     this.setupSigninObserver()
   }
 
-  private  setupParamObserver() {
-    const { authQuery } = this.services
-    authQuery.authParam.subscribe(data => this.authLink = data)
-  }
 
   private setupSigninObserver() {
     const { destroyRef, authServices } = this.services
