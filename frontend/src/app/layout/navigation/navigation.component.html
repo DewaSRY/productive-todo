@@ -1,10 +1,28 @@
 <header class="fixed inset-x-0 top-0 py-1 px-8 flex justify-between bg-natural-one h-[80px] items-center">
-    <div>
-        <h4>Productive TODO .</h4>
+    <div class="">
+        <div>
+            <h4>Productive TODO .</h4>
+        </div>
+   
     </div>
     <div>
-        <p class="bold">
-            Login
-        </p>
+        @if (auth$ | async) {
+            <ul class="flex gap-1">
+                <li>
+                    <button  mat-button>
+                        <a routerLink="todo">MY TODO</a>
+                    </button>
+                </li>
+                <li>
+                    <button role="link" (click)="logout()" mat-flat-button>Logout</button>
+                </li>
+            </ul>
+        } @else{
+            <button role="link" mat-flat-button>
+                <a [routerLink]="['auth', authLink]" mat-button>
+                    {{authLink}}
+                </a>
+            </button>
+        }
     </div>
 </header>
