@@ -1,10 +1,9 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 
 import { AuthService } from '@app/auth/services/auth.service';
-import { UserResponse } from '@app/auth/model/auth';
-import { BehaviorSubject, catchError, EMPTY, filter, map, Observable  } from 'rxjs'
-import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject } from 'rxjs'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { AuthQueryService } from '@app/auth/services/auth-query.service';
 
 @Component({
   selector: 'app-navigation',
@@ -16,8 +15,8 @@ export class NavigationComponent {
   
   private readonly services = {
     authServices: inject(AuthService),
-    activeRouter: inject(ActivatedRoute),
-    destroyRef: inject(DestroyRef)
+    destroyRef: inject(DestroyRef),
+    authQuery: inject(AuthQueryService)
   }
 
   auth$= new BehaviorSubject(false)
@@ -30,16 +29,9 @@ export class NavigationComponent {
   }
 
   private  setupParamObserver() {
-    const { destroyRef, activeRouter } = this.services
-    activeRouter.queryParamMap
-      .pipe(
-        takeUntilDestroyed(destroyRef),
-        map(param => param.get("auth") as "login" | "signup" || "login")
-      )
-      .subscribe({
-        next: data => { this.authLink= data }
-    })
-  } 
+    const { authQuery } = this.services
+    authQuery.authParam.subscribe(data => this.authLink = data)
+  }
 
   private setupSigninObserver() {
     const { destroyRef, authServices } = this.services
