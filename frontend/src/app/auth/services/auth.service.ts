@@ -24,7 +24,7 @@ export class AuthService {
     return httpClient.post<AuthResponse>(this.endpoint+ "/signup", pyload)
   }
 
-  logout() {
+  deleteLogout() {
     const {httpClient} = this.services
     return httpClient.delete<void>(this.endpoint+ "/logout")
   }
