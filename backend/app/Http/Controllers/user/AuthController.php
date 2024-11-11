@@ -15,7 +15,7 @@ use Illuminate\Http\Response;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 
@@ -141,6 +141,38 @@ class AuthController extends Controller
     public function signIn(Request $request)
     {
         return new UserResource($request->user());
+    }
+
+    /**
+     * Check if a user property is unique
+     * 
+     * This endpoint checks if a given property (e.g., `name` or `email`) is already in use.
+     * 
+     * @group Authentication
+     * @bodyParam property string required The property to check for uniqueness. Should be either "name" or "email". Example: "name"
+     * @bodyParam name string required The value of the property to check. Example: "John Doe"
+     * 
+     * @response 200 {
+     *   "is_unique": false
+     * }
+     */
+    public function uniqueProperty(Request $request){
+        $validProperty =["name", 'email'];
+
+        $validate= $request->validate([
+            "property"=>['required', Rule::in($validProperty)],
+            "name"=> "required|string",
+        ]);
+
+        $userExists = User::where(
+                $validate['property'],
+                $validate['name']
+        )->exists();
+
+        return response()
+            ->json([
+                "is_unique" => !$userExists 
+            ]);
     }
 
     private function setAccessToken(User $user)

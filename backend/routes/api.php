@@ -14,6 +14,7 @@ Route::prefix('user')->controller(AuthController::class)->group(function () {
     Route::delete('logout', 'logout');     
     Route::post('signup', 'signUp');      
     Route::get('signin', 'signIn');       
+    Route::post('unique-property', 'uniqueProperty');       
 });
 
 Route::prefix('todo')->controller(TodoController::class)->group(function () {
