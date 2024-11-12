@@ -4,6 +4,10 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { RouterModule } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { NotificationsComponent } from './components/notifications/notifications.component'
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { LucideAngularModule, X } from 'lucide-angular';
 
 @NgModule({
   declarations: [
@@ -13,7 +17,11 @@ import { NotificationsComponent } from './components/notifications/notifications
   imports: [
     CommonModule,
     RouterModule,
-    MatButton
+    MatButton,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    LucideAngularModule.pick({X })
   ],
   exports: [
     NavigationComponent,

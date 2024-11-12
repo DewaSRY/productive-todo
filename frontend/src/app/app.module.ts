@@ -6,12 +6,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
-import {MAT_FORM_FIELD_DEFAULT_OPTIONS } from "@angular/material/form-field"
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { credentialsInterceptor } from "@app/core/interceptors/credentials.interceptor"
+import { LayoutModule } from './layout/layout.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,17 +21,15 @@ import { credentialsInterceptor } from "@app/core/interceptors/credentials.inter
     MatDividerModule,
     MatIconModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    LayoutModule
   ],
   bootstrap: [AppComponent],
   providers: [
     provideHttpClient(
       withInterceptors([credentialsInterceptor])
     ),
-    {
-      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue : {apperance: "outline", subscriptSizing: "dynamic"}
-    }
+
   ]
 })
 export class AppModule { }
