@@ -157,10 +157,9 @@ class AuthController extends Controller
      * }
      */
     public function uniqueProperty(Request $request){
-        $validProperty =["name", 'email'];
 
         $validate= $request->validate([
-            "property"=>['required', Rule::in($validProperty)],
+            "property"=>['required', Rule::in(["name", 'email'])],
             "name"=> "required|string",
         ]);
 
