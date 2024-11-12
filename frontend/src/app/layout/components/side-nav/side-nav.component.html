@@ -1,4 +1,4 @@
-<mat-toolbar class="mat-elevation-z3 relative z-50">
+<mat-toolbar class="mat-elevation-z3 relative z-50 px-2 md:px-4">
     <button (click)="handleOpen()" mat-mini-fab >
         <mat-icon matListItemIcon>
             <lucide-icon class="text-natural-one" name="menu"></lucide-icon>
@@ -6,16 +6,25 @@
     </button>
 </mat-toolbar>
 
-<mat-sidenav-container class="h-[calc(100vh-64px)] md:h-full">
+<mat-sidenav-container class="h-[calc(100vh-64px)] md:h-full relative">
     <mat-sidenav [opened]="isOpen" [mode]="sidenavMode">
-        
-        <div class="w-10/12 md:w-2/3 my-8 bg-black  rounded-sm mx-auto md:rounded-md cursor-pointer" [routerLink]="['..']" >
+
+        <div class="w-11/12 my-8 bg-black  rounded-sm mx-auto md:rounded-md cursor-pointer" role="link" [routerLink]="['..']" >
             <h5 class="text-natural-one px-2 py-4 text-center md:text-left md:py-1">
-                Productive TODO.
+                Productive TODO .
             </h5>
         </div>
-        
-        <div class="flex my-8 text-left flex-col gap-8 px-2 md:px-4 ">
+
+        <div *ngIf="user$ | async as user" class="flex md:flex-col gap-2 px-2 mx-8">
+            <div class="bg-natural-three w-[50px] h-[50px] md:w-[150px] md:h-[150px] rounded-lg md:self-center">
+            </div>
+            <div class="col-span-2 items-center">
+                <h5>{{ user.name }}</h5>
+                <span>{{ user.email }}</span>
+            </div>
+        </div>
+
+        <div class="flex my-8 text-left flex-col gap-8  ">
             <mat-list>
                 @for(item of navigations; track $index){
                     <mat-list-item class="mb-4 hover:bg-primary-three/60 hover:rounded-xl" role="link" [routerLink]="[item.url]" routerLinkActive="active" (click)="handleOpen()"  >
@@ -27,6 +36,21 @@
                     </mat-list-item>
                 }
             </mat-list>
+        </div>
+        <div class="absolute inset-x-0 bottom-0 px-2 ">
+            <hr class="mb-4">
+            <div class="mt-4 mb-8">
+                <a href="https://www.linkedin.com/in/dewa-surya/" target="_blank" class="" mat-button> 
+                    Dewa Surya Ariesta
+                    <lucide-icon class="inline-block ml-2" name="move-right"></lucide-icon>
+                </a>
+            </div>
+
+            <div class="flex gap-1 my-2">
+                <button mat-flat-button (click)="logout()">
+                    Logout
+                </button>
+            </div>
         </div>
 
     </mat-sidenav>

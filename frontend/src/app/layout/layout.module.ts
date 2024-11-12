@@ -7,7 +7,7 @@ import { NotificationsComponent } from './components/notifications/notifications
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { LucideAngularModule, X , SquareArrowRight, Menu} from 'lucide-angular';
+import { LucideAngularModule, X , SquareArrowRight, Menu, MoveRight} from 'lucide-angular';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -26,7 +26,7 @@ import { MatListModule } from '@angular/material/list';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    LucideAngularModule.pick({ X, SquareArrowRight, Menu }),
+    LucideAngularModule.pick({ X, SquareArrowRight, Menu, MoveRight }),
     MatToolbar,
     MatSidenavModule,
     MatListModule

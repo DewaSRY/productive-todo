@@ -1,5 +1,11 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
+import { User } from '@app/auth/model/auth';
+import { AuthService } from '@app/auth/services/auth.service';
+import { NotificationsService } from '@app/layout/services/notifications.service';
+import { Observable } from 'rxjs';
 
 
 interface NavigationIntem{
@@ -34,11 +40,19 @@ export class SideNavComponent implements OnInit{
   ]
 
   private readonly services = {
-    breakPoint: inject(BreakpointObserver)
+    breakPoint: inject(BreakpointObserver),
+    authServices: inject(AuthService),
+    notification: inject(NotificationsService),
+    destryoRef: inject(DestroyRef),
+    router: inject(Router)
   }
 
+  user$ = this.services.authServices.getUserSignedin()
+
   ngOnInit(): void {
-    this.services.breakPoint.observe(['(min-width: 768px)'])
+    const { breakPoint, destryoRef } =this.services
+    breakPoint.observe(['(min-width: 768px)'])
+      .pipe(takeUntilDestroyed(destryoRef))
       .subscribe(result => {
         if (result.matches) {
           this.isOpen = true
@@ -52,5 +66,16 @@ export class SideNavComponent implements OnInit{
 
   handleOpen() {
     this.isOpen = !this.isOpen
+  }
+
+  logout() {
+    const { authServices, destryoRef, notification, router } = this.services
+    authServices.deleteLogout()
+      .pipe(takeUntilDestroyed(destryoRef))
+      .subscribe(() => {
+        notification.addSuccess("Logout success, see you again")
+        router.navigateByUrl("/")
+    })
+
   }
 }
