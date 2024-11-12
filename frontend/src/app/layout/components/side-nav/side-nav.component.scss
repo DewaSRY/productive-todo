@@ -1,0 +1,23 @@
+:host{
+    --mat-sidenav-container-divider-color: var(--natural-three);
+    --mat-sidenav-container-width: 100vw ;
+}
+
+.active{
+    background-color: var(--primary-two);
+    color: var(--natural-one);
+    --mdc-text-button-container-shape: 8px;
+}
+
+svg{
+    color: var(--primary-three)
+}
+
+@media (min-width: 768px) {
+    :host{
+        --mat-sidenav-container-width: 250px;
+    }   
+    mat-toolbar{
+        display: none;
+    }
+}

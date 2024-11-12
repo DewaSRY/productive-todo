@@ -7,12 +7,17 @@ import { NotificationsComponent } from './components/notifications/notifications
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { LucideAngularModule, X } from 'lucide-angular';
+import { LucideAngularModule, X , SquareArrowRight, Menu} from 'lucide-angular';
+import { SideNavComponent } from './components/side-nav/side-nav.component';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
     NavigationComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    SideNavComponent
   ],
   imports: [
     CommonModule,
@@ -21,11 +26,15 @@ import { LucideAngularModule, X } from 'lucide-angular';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    LucideAngularModule.pick({X })
+    LucideAngularModule.pick({ X, SquareArrowRight, Menu }),
+    MatToolbar,
+    MatSidenavModule,
+    MatListModule
   ],
   exports: [
     NavigationComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    SideNavComponent
   ]
 })
 export class LayoutModule { }

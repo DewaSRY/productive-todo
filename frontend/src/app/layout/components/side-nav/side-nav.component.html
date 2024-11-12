@@ -1,1 +1,41 @@
-<p>side-nav works!</p>
+<mat-toolbar class="mat-elevation-z3 relative z-50">
+    <button (click)="handleOpen()" mat-mini-fab >
+        <mat-icon matListItemIcon>
+            <lucide-icon class="text-natural-one" name="menu"></lucide-icon>
+        </mat-icon>
+    </button>
+</mat-toolbar>
+
+<mat-sidenav-container class="h-[calc(100vh-64px)] md:h-full">
+    <mat-sidenav [opened]="isOpen" [mode]="sidenavMode">
+        
+        <div class="w-10/12 md:w-2/3 my-8 bg-black  rounded-sm mx-auto md:rounded-md cursor-pointer" [routerLink]="['..']" >
+            <h5 class="text-natural-one px-2 py-4 text-center md:text-left md:py-1">
+                Productive TODO.
+            </h5>
+        </div>
+        
+        <div class="flex my-8 text-left flex-col gap-8 px-2 md:px-4 ">
+            <mat-list>
+                @for(item of navigations; track $index){
+                    <mat-list-item class="mb-4 hover:bg-primary-three/60 hover:rounded-xl" role="link" [routerLink]="[item.url]" routerLinkActive="active" (click)="handleOpen()"  >
+                        <mat-icon matListItemIcon>
+                            <lucide-icon class="text-text" name="square-arrow-right"></lucide-icon>
+                        </mat-icon>
+                        <p  matListItemTitle class="" > {{item.title}} </p>
+                   
+                    </mat-list-item>
+                }
+            </mat-list>
+        </div>
+
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <main class="mx-1">
+            <ng-content></ng-content>
+        </main>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+
