@@ -43,6 +43,7 @@ html, body { height: 100%; }
      --natural-two: #f7f7f7;
      --natural-three: #ebebeb;
 
+     --shimmer-thickness: 50%;
      
 }
 body {
@@ -99,4 +100,26 @@ h1,h2,h3,h4,h5,h6{
 p{
    font-weight: 600;
    color: var(--text);
+}
+
+
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 var(--shimmer-thickness),
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
 }
