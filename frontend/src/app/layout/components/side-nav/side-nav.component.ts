@@ -65,7 +65,9 @@ export class SideNavComponent implements OnInit{
   }
 
   handleOpen() {
-    this.isOpen = !this.isOpen
+    if (this.sidenavMode === 'push') {
+      this.isOpen = !this.isOpen
+    }
   }
 
   logout() {
