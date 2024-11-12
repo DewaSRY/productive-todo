@@ -4,6 +4,15 @@ import { environment } from "@environments/environment"
 
 import { AuthResponse, LoginPyload, SignupPyload, UserResponse } from "@app/auth/model/auth"
 
+export type Property=  "name" | 'email'
+export interface UniqProperty{
+  property: Property,
+  name: string
+}
+
+export interface UniquePropertyResponse{ is_unique: boolean}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -34,5 +43,9 @@ export class AuthService {
     return httpClient.post<AuthResponse>(this.endpoint+ "/login", pyload)
   }
 
+  postUniqueUserProperty(pyload: UniqProperty) {
+    const { httpClient } = this.services
+    return httpClient.post<UniquePropertyResponse>(this.endpoint+ "/unique-property", pyload)
+  }
 
 }

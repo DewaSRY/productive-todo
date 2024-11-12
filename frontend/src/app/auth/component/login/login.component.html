@@ -1,1 +1,55 @@
-<p>login works!</p>
+<mat-card appearance="outlined" class="min-h-[600px] ">
+    @if (!isFetching) {
+        <form action="" [formGroup]="formGroup" (ngSubmit)="login()" class=" flex flex-col gap-8 py-16 px-12">
+            <mat-card-header>
+                <mat-card-title>
+                    <h5>Login Form</h5>
+                </mat-card-title>
+                <mat-card-subtitle>Login to An Account</mat-card-subtitle>
+            </mat-card-header>
+    
+            <label for="email-input" class="px-4 bold">
+                <p>Email</p>
+            </label>
+    
+            <mat-form-field class="border-none" >
+                <mat-label class="border-none">Email</mat-label>
+                <input type="email" id="email-input" matInput [formControl]="formGroup.controls.email" placeholder="Ex. pat@example.com">
+                @if (formGroup.controls.email.hasError("required")) {
+                    <mat-error>Please enter a valid email address</mat-error>
+                }
+            </mat-form-field>
+    
+            <label for="passowrd-input" class="px-4 bold">
+                <p>Password</p>
+            </label>
+    
+            <mat-form-field >
+                <input type="password" id="passowrd-input" matInput [formControl]="formGroup.controls.password" placeholder="Ex. Password">
+                @if (formGroup.controls.password.hasError("required")) {
+                    <mat-error>Please enter a valid email address</mat-error>
+                }
+            </mat-form-field>
+    
+            <mat-card-actions align="end">
+                <button mat-flat-button extended  [disabled]="!formGroup.valid">
+                    Submit
+                </button>
+            </mat-card-actions>
+    
+        </form>
+    }@else {
+        <div class="shimmer h-[600px] w-full" >
+            <div class="flex flex-col gap-8 py-16 px-12">
+                <div class="shimmer h-[10px] w-full" style="--shimmer-thickness: 100%;" ></div>
+                <div class="shimmer h-[30px] w-full" style="--shimmer-thickness: 100%;" ></div>
+                <div class="shimmer h-[10px] w-full" style="--shimmer-thickness: 100%;" ></div>
+                <div class="shimmer h-[30px] w-full" style="--shimmer-thickness: 100%;" ></div>
+                <div class=" flex justify-end my-8">
+                    <div class="shimmer h-[30px] w-[100px]" style="--shimmer-thickness: 100%;" ></div>
+                </div>
+            </div>
+        </div>  
+    }
+</mat-card>
+

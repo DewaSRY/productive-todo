@@ -1,1 +1,135 @@
-<p>signup works!</p>
+<mat-card appearance="outlined" class="min-h-[600px] py-16 px-12">
+    @if(!isFetching){
+        <form action="" [formGroup]="formGroup" (ngSubmit)="signup()" class=" flex flex-col gap-8 ">
+            <mat-card-header>
+                <mat-card-title>
+                    <h5>Sign-up Form</h5>
+                </mat-card-title>
+                <mat-card-subtitle>Create An Account</mat-card-subtitle>
+            </mat-card-header>
+    
+            
+            <label for="name-input" class="px-4 bold">
+                <p>Username</p>
+            </label>
+    
+            <mat-form-field >
+                <mat-label>username</mat-label>
+                <input type="text" id="name-input" matInput [formControl]="formGroup.controls.name" placeholder="Ex. jane deo">
+                @if (formGroup.controls.name.hasError("required")) {
+                    <mat-error>Please enter a username</mat-error>
+                }
+    
+                @if (formGroup.controls.name.hasError("unique")) {
+                    <mat-error>Username already use</mat-error>
+                }
+    
+                @if (formGroup.controls.name.hasError("minlength")) {
+                    <mat-error>Username need to be more then 4 character</mat-error>
+                }
+            </mat-form-field>
+    
+            <label for="" class="px-4 bold">
+                <p>Email</p>
+            </label>
+    
+            <mat-form-field  subscriptSizing="dynamic">
+                <mat-label>Email</mat-label>
+                <input type="email" id="email-input" matInput [formControl]="formGroup.controls.email" placeholder="Ex. pat@example.com">
+                @if (formGroup.controls.email.hasError("required")) {
+                    <mat-error>Please enter a valid email address</mat-error>
+                }
+                
+                @if (formGroup.controls.email.hasError("email")) {
+                    <mat-error>Please provide valid email</mat-error>
+                }
+    
+                @if (formGroup.controls.email.hasError("unique")) {
+                    <mat-error>email already use</mat-error>
+                }
+    
+    
+            </mat-form-field>
+    
+            <label for="" class="px-4 bold">
+                <p>Password</p>
+            </label>
+    
+            <mat-form-field >
+                <mat-label>Passowrd</mat-label>
+                <input type="password" id="passowrd-input" matInput [formControl]="formGroup.controls.password" placeholder="Ex. Password">
+                @if (formGroup.controls.password.hasError("required")) {
+                    <mat-error>Pleasee provide a password</mat-error>
+                }
+    
+                @if (formGroup.controls.password.hasError("minlength")) {
+                    <mat-error>Password need to be more then 4 character</mat-error>
+                }
+    
+                @if (formGroup.controls.password.hasError("maxlength")) {
+                    <mat-error>Password can not be more then 20 character</mat-error>
+                }
+            </mat-form-field>
+    
+            <label for="" class="px-4 bold">
+                <p>Password Confirmation</p>
+            </label>
+    
+            <mat-form-field >
+                <mat-label>Password Confirmation</mat-label>
+                <input type="password" id="passowrd-input" matInput [formControl]="formGroup.controls.passwordConfirmation" placeholder="Ex. Password">
+                @if (formGroup.controls.passwordConfirmation.hasError("required")) {
+                    <mat-error>Pleasee provide a password confirmation</mat-error>
+                }
+    
+                @if (formGroup.controls.passwordConfirmation.hasError("minlength")) {
+                    <mat-error>Password confirmation need to be more then 4 character</mat-error>
+                }
+    
+                @if (formGroup.controls.passwordConfirmation.hasError("maxlength")) {
+                    <mat-error>Password confirmation can not be more then 20 character</mat-error>
+                }
+    
+                @if (formGroup.hasError("passwordsDontMatch") 
+                || (formGroup.errors && formGroup.errors['passwordsDontMatch'])) {
+                    <mat-error>Password  doesn't match</mat-error>
+                }
+    
+            </mat-form-field>
+    
+            @if (formGroup.hasError("passwordsDontMatch")) {
+                <p class="text-red-500">
+                    Please and confirmation passowrd is valid
+                </p>
+            }
+    
+            <mat-card-actions align="end">
+                <button mat-flat-button extended [disabled]="formGroup.status === 'INVALID'" >
+                    Submit
+                </button>
+            </mat-card-actions>
+    
+     
+    
+        </form>
+    }@else{
+        <div class="shimmer h-[600px] w-full" >
+            <div class="flex flex-col gap-8 py-16 px-12">
+                <div class="shimmer h-[10px] w-full" style="--shimmer-thickness: 100%;" ></div>
+                <div class="shimmer h-[30px] w-full" style="--shimmer-thickness: 100%;" ></div>
+
+                <div class="shimmer h-[10px] w-full" style="--shimmer-thickness: 100%;" ></div>
+                <div class="shimmer h-[30px] w-full" style="--shimmer-thickness: 100%;" ></div>
+
+                <div class="shimmer h-[10px] w-full" style="--shimmer-thickness: 100%;" ></div>
+                <div class="shimmer h-[30px] w-full" style="--shimmer-thickness: 100%;" ></div>
+
+                <div class="shimmer h-[10px] w-full" style="--shimmer-thickness: 100%;" ></div>
+                <div class="shimmer h-[30px] w-full" style="--shimmer-thickness: 100%;" ></div>
+                <div class=" flex justify-end my-8">
+                    <div class="shimmer h-[30px] w-[100px]" style="--shimmer-thickness: 100%;" ></div>
+                </div>
+            </div>
+        </div> 
+    }
+</mat-card>

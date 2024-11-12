@@ -1,0 +1,24 @@
+<main class="w-11/12 md:max-w-5xl mx-auto py-8 ">
+    <div class="grid md:grid-cols-3">
+        @if (authPara === 'login') {
+            <div class="md:col-span-2 md:col-start-2">
+                <app-login/>
+            </div>
+        } @else{
+            <div class="md:col-span-2 md:col-start-1">
+                <app-signup/>
+            </div>
+        }
+    </div>
+    <div class="my-8 w-max mx-auto">
+        <button  mat-raised-button role="link" [routerLink]="['.']" [queryParams]="{auth: revertAuthParam}">
+          <p class="bold">   
+              @if (revertAuthParam === "login") {
+                  <span>Already have an <span class="text-primary-three">Accoutn</span></span>
+              } @else {
+                  <span>Do not have and <span class="text-primary-three">Accoutn</span> yet</span>
+              }
+          </p>
+        </button>
+    </div>
+</main>
