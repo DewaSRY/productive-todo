@@ -1,4 +1,4 @@
-import { Component, DestroyRef } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Cuartel } from "@app/todo/model/heat-map-calender"
 import { TodoHeatMapService } from '@app/todo/services/todo-heat-map.service';
@@ -10,13 +10,20 @@ import { tap } from 'rxjs';
 })
 export class TodoHeatMapFilterComponent  {
   currentCuartal!: string
+
+  private readonly services = {
+    heatMapServices: inject(TodoHeatMapService),
+    destroyRef: inject(DestroyRef)
+  }
   
-  constructor(
-    private heatMapServices: TodoHeatMapService,
-    private destroyRef: DestroyRef) {
-    this.heatMapServices.currectCuartal$
-      .pipe(takeUntilDestroyed(this.destroyRef))
+  constructor() {
+    const {heatMapServices,destroyRef } = this.services
+    heatMapServices.currectCuartal$
+      .pipe(takeUntilDestroyed(destroyRef))
       .pipe(tap(d=> console.log(d)))
       .subscribe((c) => this.currentCuartal = c)
   }
+
+  isFeatching$ = this.services.heatMapServices.isFetching$
+  
 }
