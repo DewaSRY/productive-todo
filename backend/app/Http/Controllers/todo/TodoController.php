@@ -85,12 +85,41 @@ class TodoController extends Controller
     /**
      * Get todo data formatted for a heatmap interface.
      * 
+     * this is the response 
+     *  [
+     *    {
+     *      "name": "Week 1",
+     *      "series": [
+     *          {
+     *              "name": "Sun", 
+     *              "value": 3
+     *          },
+     *          {
+     *              "name": "Mon", 
+     *              "value": 5
+     *          }
+     *      ]
+     *    }
+     * ]
+     * 
      * @group Todo
      * @bodyParam cuartel string required The property used to filter data by quarter. Example: "Q2"
      * @bodyParam year string required The year to filter todos by. Example: "2024"
      * 
+     * @response '[ { "name": "Week 1", "series": [ { "name": "Sun", "value": 3 }, { "name": "Mon", "value": 5 } ] } ]'
+     * 
      * @param HeatMapTodoRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return [
+     *  {
+     *      name: string,
+     *      series: [
+     *          {
+     *              name: string, 
+     *              value: number
+     *          }
+     *      ]
+     *  }
+     * ]
      */
     public function getTodoCalenderHeatMap(HeatMapTodoRequest $request)
     {
