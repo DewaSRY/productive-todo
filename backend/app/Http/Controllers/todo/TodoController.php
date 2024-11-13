@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers\todo;
 
+use App\data\Cuartel;
 use App\Models\todo\Todo;
+
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+
 
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\AuthMiddleware;
 use App\Http\Requests\todo\TodoFilterRequest;
 use App\Http\Requests\todo\TodoRequest;
+use App\Http\Requests\todo\HeatMapTodoRequest;
 use App\Http\Resources\todo\TodoResources;
 
 class TodoController extends Controller
@@ -67,4 +73,67 @@ class TodoController extends Controller
          return new TodoResources($todo);
     }
 
+    /**
+     * toggle the todo complition
+     */
+    public function togglComplition(Todo $todo){
+        $todo->is_completed= !$todo->is_completed;
+        $todo->save();
+        return new TodoResources($todo);
+    }
+
+    /**
+     * Get todo data formatted for a heatmap interface.
+     * 
+     * @group Todo
+     * @bodyParam cuartel string required The property used to filter data by quarter. Example: "Q2"
+     * @bodyParam year string required The year to filter todos by. Example: "2024"
+     * 
+     * @param HeatMapTodoRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getTodoCalenderHeatMap(HeatMapTodoRequest $request)
+    {
+        $cuartel = Cuartel::$data[$request->cuartel];
+    
+        $startDate = Carbon::createFromFormat('m-d-Y', $cuartel["startAt"] . '-' . $request->year);
+        $endDate = Carbon::createFromFormat('m-d-Y', $cuartel["endAt"] . '-' . $request->year);
+    
+        $daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        $calendarData = [];
+        $weekStartDate = $startDate->copy(); 
+    
+        while ($weekStartDate->lte($endDate)) {
+            $series = [];
+    
+            foreach ($daysOfWeek as $day) {
+                $count = 0;
+    
+                $todosOnDay = Todo::whereBetween('created_at', [
+                        $weekStartDate->startOfWeek(),
+                        $weekStartDate->endOfWeek()
+                    ])
+                    ->where(DB::raw('DAYNAME(created_at)'), $day)
+                    ->count();
+    
+                if ($todosOnDay > 0) {
+                    $count = $todosOnDay;
+                }
+    
+                $series[] = [
+                    'name' => $day,
+                    'value' => $count
+                ];
+            }
+    
+            $calendarData[] = [
+                'name' => "Week " . $weekStartDate->weekOfYear,
+                'series' => $series
+            ];
+    
+            $weekStartDate->addWeek();
+        }
+    
+        return response()->json($calendarData);
+    }
 }
