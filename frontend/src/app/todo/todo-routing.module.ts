@@ -10,11 +10,11 @@ const routes: Routes = [
   {
     path: "",
     component: HomeTodoComponent,
-    canActivate: [userAuthGuard],
+    // canActivate: [userAuthGuard],
     children: [
       {
         path: "dashboard",
-        component: DashboardComponent
+        component: DashboardComponent,
       },
       {
         path: "my-calender",

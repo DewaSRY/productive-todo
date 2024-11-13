@@ -1,0 +1,23 @@
+@if (isFetching$ | async) {
+    <div 
+        [ngStyle]="{
+            width: view[0] + 'px',
+            height: view[1] + 'px'
+        }" 
+        class="shimmer rounded-xl">
+    </div>
+} @else {
+    <div *ngIf="calenderData$ | async as data;">
+        <ngx-charts-heat-map
+            [view]="view"
+            [results]="data"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [gradient]="gradient"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel">
+        </ngx-charts-heat-map>
+    </div>
+
+}
+
