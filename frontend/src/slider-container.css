@@ -1,0 +1,35 @@
+.slider-container {
+    width: 100%; /* Set width as needed */
+    overflow-x: auto;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+  }
+  
+  .slide-content {
+    display: inline-block;
+  }
+  
+  .slider-container::-webkit-scrollbar {
+    height: 100px;
+  }
+  
+  .slider-container::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 4px; 
+  }
+  
+  .slider-container::-webkit-scrollbar-thumb {
+    background: var(--primary-two); 
+    border-radius: 4px; 
+    border: 2px solid transparent; 
+  }
+  
+  .slider-container::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-one); 
+  }
+  
+  .slider-container {
+    scrollbar-width: thin; 
+    scrollbar-color: var(--secondary-one) transparent; 
+  }
+  

@@ -5,4 +5,12 @@
 :root {
     @include mat.core();
     @include mat.all-component-themes(theme.$light-theme);
+    --mdc-text-button-container-shape: 8px;
+    --mdc-filled-button-container-shape:8px;
+    --mat-sidenav-container-shape: 8px;
 }
+
+
+// .mat-button-base {
+//     border-radius: 8px; 
+// }

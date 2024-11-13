@@ -38,7 +38,9 @@
             "styles": [
               "src/styles.css",
               "src/custom-theme.scss",
-              "src/m3-theme.scss"
+              "src/m3-theme.scss",
+              "src/slider-container.css",
+              "src/shimmer.css"
             ],
             "scripts": []
           },
