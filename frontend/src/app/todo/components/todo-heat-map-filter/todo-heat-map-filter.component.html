@@ -1,0 +1,25 @@
+<h5 class="text-center inline-block">
+    Filter By Month&apos;s
+</h5>
+<mat-list role="list" >
+    <mat-list-item role="listitem" class="w-min">
+        <a routerLink="." [queryParams]="{cuartel: 'Q1'}"  mat-stroked-button [disabled]="currentCuartal === 'Q1'" class="filter-button" >
+            January - March
+        </a>
+    </mat-list-item>
+    <mat-list-item role="listitem" class="w-max">
+        <a routerLink="." [queryParams]="{cuartel: 'Q2'}" mat-stroked-button [disabled]="currentCuartal === 'Q2'" class="filter-button">
+            April - July
+        </a>
+    </mat-list-item>
+    <mat-list-item role="listitem" class="w-max">
+        <a routerLink="." [queryParams]="{cuartel: 'Q3'}" mat-stroked-button [disabled]="currentCuartal === 'Q3'" class="filter-button">
+            July - September
+        </a>
+    </mat-list-item>
+    <mat-list-item role="listitem" class="w-max">
+        <a routerLink="." [queryParams]="{cuartel: 'Q4'}"  mat-stroked-button [disabled]="currentCuartal === 'Q4'" class="filter-button">
+            October - December
+        </a>
+    </mat-list-item>
+  </mat-list>
