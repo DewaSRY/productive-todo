@@ -95,45 +95,40 @@ class TodoController extends Controller
     public function getTodoCalenderHeatMap(HeatMapTodoRequest $request)
     {
         $cuartel = Cuartel::$data[$request->cuartel];
-    
+        
         $startDate = Carbon::createFromFormat('m-d-Y', $cuartel["startAt"] . '-' . $request->year);
         $endDate = Carbon::createFromFormat('m-d-Y', $cuartel["endAt"] . '-' . $request->year);
-    
+        
         $daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         $calendarData = [];
         $weekStartDate = $startDate->copy(); 
-    
+        
         while ($weekStartDate->lte($endDate)) {
             $series = [];
-    
+
             foreach ($daysOfWeek as $day) {
-                $count = 0;
-    
-                $todosOnDay = Todo::whereBetween('created_at', [
-                        $weekStartDate->startOfWeek(),
-                        $weekStartDate->endOfWeek()
-                    ])
-                    ->where(DB::raw('DAYNAME(created_at)'), $day)
-                    ->count();
-    
-                if ($todosOnDay > 0) {
-                    $count = $todosOnDay;
+                $dayDate = $weekStartDate->copy()->modify("next $day");
+                
+                if ($dayDate->lte($endDate)) {
+                    $count = Todo::whereDate('created_at', $dayDate->format('Y-m-d'))->count();
+                } else {
+                    $count = 0; 
                 }
-    
+                
                 $series[] = [
                     'name' => $day,
                     'value' => $count
                 ];
             }
-    
+
             $calendarData[] = [
                 'name' => "Week " . $weekStartDate->weekOfYear,
                 'series' => $series
             ];
-    
+
             $weekStartDate->addWeek();
         }
-    
+
         return response()->json($calendarData);
     }
 }
