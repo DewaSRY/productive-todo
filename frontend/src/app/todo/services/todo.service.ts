@@ -23,7 +23,7 @@ export class TodoService {
         name: query.name || "",
         from: query.from || "",
         to: query.to || "",
-        is_comleted: query.is_comleted || "",
+        is_completed: query.is_completed || "",
         limit:query.limit || ""
       }
     })
@@ -42,6 +42,11 @@ export class TodoService {
   putTodo(pyload: Todo, id: number) {
     return this.services.httpClient.put<TodoResponse>(`this.endpoint/${id}`, pyload)
        .pipe(map(r=> r.data))
+  }
+
+  deleteTodo(id: number) {
+    return this.services.httpClient.delete<void>(`this.endpoint/${id}`)
+      .pipe(map(()=> null))
   }
   
   completeTodo(pyload: Todo, id: number) {
