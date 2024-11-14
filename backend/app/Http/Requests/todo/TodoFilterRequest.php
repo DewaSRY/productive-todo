@@ -21,7 +21,7 @@ class TodoFilterRequest extends FormRequest
                 'is_completed' => filter_var($this->input('is_completed'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
             ]);
         }
-        if (!$this->has('limit')) {
+        if (!$this->has('limit') || $this->input('limit') < 1) {
             $this->merge([
                 'limit' => 10
             ]);
