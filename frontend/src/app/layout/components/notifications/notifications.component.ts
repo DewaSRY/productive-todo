@@ -13,7 +13,7 @@ export class NotificationsComponent {
     notificationServices: inject(NotificationsService)
   }
 
-  messages: Observable<Command[]> = this.services.notificationServices.messagesOutputs
+  messages$: Observable<Command[]> = this.services.notificationServices.messagesOutputs
 
   get notifications() {
     return this.services.notificationServices.messagesOutputs
