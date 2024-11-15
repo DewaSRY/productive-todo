@@ -18,8 +18,29 @@ class TodoRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+
+        if ($this->input("title") === null) {
+
+            $this->merge([
+                'title' => "",
+            ]);
+        }
+
+        if ($this->input("description") === null) {
+
+            $this->merge([
+                'description' => "",
+            ]);
+        }
+
+    }
+
+
     public function rules(): array
     {
+
         return [
             'title'=> "sometimes|string",
             'is_completed'=> "sometimes|boolean",
