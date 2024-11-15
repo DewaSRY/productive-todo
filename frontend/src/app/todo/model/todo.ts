@@ -1,15 +1,11 @@
+export type Priority = 'HIGHT' | 'MID' | 'NORMAL' | 'LOW';
+
 export interface Todo {
   title: string;
   is_completed: boolean;
   description: string;
-  priority: 'HIGHT' | 'MID' | 'NORMAL' | 'LOW';
-}
-
-export interface GetAllTodoRequest {
-  from: string;
-  is_completed: boolean;
-  name: string;
-  to: string;
+  priority: Priority
+  id: number 
 }
 
 export interface TodoResponse {
@@ -17,7 +13,7 @@ export interface TodoResponse {
 }
 
 export interface TodoRecord extends Todo {
-  id: string;
+  id: number;
   created_at: string;
   updated_at: string;
   user_id: string;

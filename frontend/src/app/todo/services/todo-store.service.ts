@@ -8,7 +8,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TodoItemService } from './todo-item.service';
 import { Link } from "@app/shared/models/shared"
 
-type Type="add" | "remove"
+type Type="add" | "remove" | "clear"
 
 interface Command{
   todo?: TodoRecord,
@@ -50,7 +50,7 @@ export class TodoStoreService {
             case "remove":
               return accTodos.filter(x => x.id !== data.id);
             default:
-              return accTodos;
+              return [];
           }
         }, [] as TodoRecord[]),
         map(data=> data.length <= 10 ? data : data.slice(0,10))
@@ -92,12 +92,16 @@ export class TodoStoreService {
           let name= data.get("name") || undefined
           let from= data.get("from") || undefined
           let to= data.get("to") || undefined
-          let is_completed = data.get("is_completed") || undefined
+          let is_completed = data.get("is_completed")  || undefined
           let limit = data.get("limit") || undefined
-          return {name, from, to, is_completed, limit} as TodoFilterRequest
+          let priority = data.get("priority") || undefined
+
+          return {name, from, to, is_completed,priority, limit} as TodoFilterRequest
         }),
         switchMap(query => {
           this.isFetching$.next(true)
+          this.todoData$.next({ type: "clear" })
+          
           return todoServices.getAllTodo(query)
             .pipe(finalize(()=>this.isFetching$.next(false)))
         }),

@@ -24,7 +24,8 @@ export class TodoService {
         from: query.from || "",
         to: query.to || "",
         is_completed: query.is_completed || "",
-        limit:query.limit || ""
+        limit: query.limit || "",
+        priority: query.priority || ""
       }
     })
   }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\todo;
 
+use App\data\Priority;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class TodoFilterRequest extends FormRequest
 {
@@ -16,9 +18,9 @@ class TodoFilterRequest extends FormRequest
     
     protected function prepareForValidation()
     {
-        if ($this->has('is_completed')) {
+        if ($this->input("is_completed") !== null) {
             $this->merge([
-                'is_completed' => filter_var($this->input('is_completed'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE),
+                'is_completed' => filter_var($this->input('is_completed'), FILTER_VALIDATE_BOOLEAN),
             ]);
         }
         if (!$this->has('limit') || $this->input('limit') < 1) {
@@ -36,7 +38,8 @@ class TodoFilterRequest extends FormRequest
             "fromt"=> "nullable|date",
             "to"=> "nullable|date",
             "is_completed"=> "nullable|boolean",
-            "limit"=> "nullable|numeric"
+            "limit"=> "nullable|numeric",
+            "priority" => ["nullable" , Rule::in(array_keys(Priority::$data))]
         ];
     }
 
