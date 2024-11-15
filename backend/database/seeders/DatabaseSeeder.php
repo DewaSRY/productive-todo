@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             "email"=> "newuser@example.com"
         ]);
+
         User::factory(9)->create();
 
         $users= User::all();
@@ -26,7 +27,11 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        
+        $user= User::where("email","newuser@example.com" )->first();
 
+        Todo::factory(500)->create([
+            'user_id' => $user->id,
+        ]);
+        
     }
 }
