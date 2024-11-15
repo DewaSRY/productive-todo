@@ -23,6 +23,7 @@ Route::prefix('todo')->controller(TodoController::class)->group(function () {
     Route::get('/todo-heatmap', 'getTodoCalenderHeatMap');            
     Route::put('/toggle-completion/{todo}', 'togglComplition');            
     Route::get('/{todo}', 'show');              
+    Route::delete('/{todo}', 'destroy');              
     Route::put('/{todo}', 'update');            
 });
 

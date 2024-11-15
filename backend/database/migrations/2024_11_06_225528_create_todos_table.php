@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("title");
             $table->boolean("is_completed")->default(false);
             $table->longText("description");
+            $table->softDeletes(); 
             $table->enum("priority", array_keys(Priority::$data))->default("NORMAL");
             $table->foreignIdFor(User::class);
         });

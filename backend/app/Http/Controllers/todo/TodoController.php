@@ -74,6 +74,14 @@ class TodoController extends Controller
     }
 
     /**
+     * This endpoint use to delete todo
+     */
+    public function destroy(Todo $todo){
+        $todo->delete();
+        return response()->noContent();
+    }
+
+    /**
      * toggle the todo complition
      */
     public function togglComplition(Todo $todo){
