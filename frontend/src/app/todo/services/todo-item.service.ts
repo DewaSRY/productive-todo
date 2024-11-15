@@ -41,13 +41,13 @@ export class TodoItemService {
           switch (data.type) {
             case "add":
               return todoServices.postNewTodo(data.todo)
-                    .pipe(map((data)=>({data, type: "add"}) as OutputCommand))
+                    .pipe(map((data)=>({todo:data, type: "add"}) as OutputCommand))
             case "update":
               return todoServices.putTodo(data.todo, data.todo.id)
-                     .pipe(map((data)=>({data, type: "add"}) as OutputCommand));
+                     .pipe(map((data)=>({todo:data, type: "add"}) as OutputCommand));
             case "toggle":
               return todoServices.completeTodo(data.todo, data.todo.id)
-                     .pipe(map((data)=>({data, type: "add"}) as OutputCommand))
+                     .pipe(map((data)=>({todo:data, type: "add"}) as OutputCommand))
             default:
               return todoServices.deleteTodo(data.todo.id)
                 .pipe(
@@ -66,7 +66,7 @@ export class TodoItemService {
         description: "",
         is_completed: false, 
         priority: "NORMAL",
-        title : ""
+        title : "new Todo"
       },
        type: "add"
     })
@@ -83,7 +83,7 @@ export class TodoItemService {
   togleComplitionTodo(todo: Todo) {
     this.todoData$.next({ todo: todo, type: "toggle"})
   }
-  
+
   private randoId() {
     return Math.round(Math.random() * 10000)
   }
