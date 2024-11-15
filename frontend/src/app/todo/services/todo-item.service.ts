@@ -1,9 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-import { catchError, map, Observable, of, Subject, switchMap } from 'rxjs';
+import { map, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import { Todo, TodoRecord } from '../model/todo';
 import { TodoService } from './todo.service';
+import { NotificationsService } from '@app/layout/services/notifications.service';
 
-type InputType = "add" | "update" | "remove"
+type InputType = "add" | "update" | "remove" | "toggle"
 
 interface InputCommand{
   todo: Todo
@@ -14,7 +15,8 @@ interface InputCommand{
 type OutpuType= "add" | "refresh"
 
 interface OutputCommand{
-  todo?: TodoRecord
+  todo?: TodoRecord,
+  id?:number,
   type:OutpuType
 }
 
@@ -26,31 +28,34 @@ export class TodoItemService {
   readonly todoOutput$!: Observable<OutputCommand>
   
   private readonly services = {
-    todoServices: inject(TodoService)
+    todoServices: inject(TodoService),
+    notification: inject(NotificationsService)
   }
 
   constructor() {
-    const { todoServices } = this.services
+    const { todoServices, notification } = this.services
     this.todoData$ = new Subject();
     this.todoOutput$ = this.todoData$
       .pipe(
         switchMap(data => {
           switch (data.type) {
             case "add":
-              return todoServices.postNewTodo(data.todo);
+              return todoServices.postNewTodo(data.todo)
+                    .pipe(map((data)=>({data, type: "add"}) as OutputCommand))
             case "update":
-              return todoServices.putTodo(data.todo, data.todo.id);
+              return todoServices.putTodo(data.todo, data.todo.id)
+                     .pipe(map((data)=>({data, type: "add"}) as OutputCommand));
+            case "toggle":
+              return todoServices.completeTodo(data.todo, data.todo.id)
+                     .pipe(map((data)=>({data, type: "add"}) as OutputCommand))
             default:
-              return todoServices.deleteTodo(data.todo.id);
+              return todoServices.deleteTodo(data.todo.id)
+                .pipe(
+                  tap(() => notification.addSuccess("Deleted")),
+                  map(id=> ({id, type:"refresh"}) as OutputCommand)
+                );
           }
         }),
-        map(data => {
-          let type: OutpuType = "add"
-          if (data === null) {
-            type = "refresh"
-          }
-          return {data, type}
-        })
       )
   }
   
@@ -75,8 +80,21 @@ export class TodoItemService {
     this.todoData$.next({todo: tood, type: "remove"})
   }
 
+  togleComplitionTodo(todo: Todo) {
+    this.todoData$.next({ todo: todo, type: "toggle"})
+  }
+  
   private randoId() {
     return Math.round(Math.random() * 10000)
   }
 
+  todoMapper(todo: TodoRecord): Todo {
+    return {
+      description: todo.description,
+      id: todo.id,
+      is_completed: todo.is_completed,
+      priority: todo.priority,
+      title: todo.title
+    }
+  }
 }

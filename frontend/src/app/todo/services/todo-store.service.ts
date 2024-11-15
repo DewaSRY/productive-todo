@@ -1,5 +1,5 @@
 import { DestroyRef, inject, Injectable } from '@angular/core';
-import { BehaviorSubject, finalize, from, map, Observable, scan, Subject, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, filter, finalize, from, map, Observable, ReplaySubject, scan, Subject, switchMap, tap } from 'rxjs';
 import { TodoRecord } from '../model/todo';
 import { TodoFilterRequest } from '../model/todo-request';
 import { TodoService } from './todo.service';
@@ -8,12 +8,20 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TodoItemService } from './todo-item.service';
 import { Link } from "@app/shared/models/shared"
 
+type Type="add" | "remove"
+
+interface Command{
+  todo?: TodoRecord,
+  id?: number
+  type:Type
+}
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoStoreService {
-  private readonly todoData$!: Subject<TodoRecord>
+  private readonly todoData$!: Subject<Command>
   readonly todoDataStore$!: Observable<TodoRecord[]>
   readonly metaData = new BehaviorSubject<Link[]>([])
   readonly isFetching$ = new BehaviorSubject<boolean>(false)
@@ -27,12 +35,27 @@ export class TodoStoreService {
 
   constructor() {
     const { todoItem, destroyRef } = this.services
-    this.todoData$ = new Subject()
+    this.todoData$ = new ReplaySubject()
     this.todoDataStore$ = this.todoData$
       .pipe(
-        scan((acc, data) => [data, ...acc], [] as TodoRecord[]),
-        map(data => data.length <= 10 ? data : data.slice(0, 10))
+        filter(data=> data !== null),
+        scan((accTodos, data) => {
+          switch (data.type) {
+            case "add": {
+              const existingIndex = accTodos.findIndex(d => d.id === data.id);
+              return existingIndex !== -1
+                ? [...accTodos.slice(0, existingIndex), data.todo!, ...accTodos.slice(existingIndex + 1)]
+                : [data.todo!, ...accTodos];
+            }
+            case "remove":
+              return accTodos.filter(x => x.id !== data.id);
+            default:
+              return accTodos;
+          }
+        }, [] as TodoRecord[]),
+        map(data=> data.length <= 10 ? data : data.slice(0,10))
     )
+
     
     this.setUpQueryData()
 
@@ -41,7 +64,16 @@ export class TodoStoreService {
       .subscribe((data) => {
       switch (data.type) {
         case "add":
-          this.todoData$.next(data.todo as TodoRecord)
+          this.todoData$.next({
+            type: "add",
+            todo: data.todo as TodoRecord
+          })
+          break
+        case "refresh":
+          this.todoData$.next({
+            type: "remove",
+            id: data.id
+          })
           break
         default:
           this.setUpQueryData()
@@ -73,7 +105,10 @@ export class TodoStoreService {
         switchMap(response => from(response.data))
       )
       .subscribe((data) => {
-        this.todoData$.next(data)
+        this.todoData$.next({
+          type: "add",
+          todo: data
+        })
       })
   }
 }

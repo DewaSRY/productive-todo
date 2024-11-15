@@ -35,22 +35,23 @@ export class TodoService {
   }
 
   getTodoById(id: number) {
-    return this.services.httpClient.get<TodoResponse>(`this.endpoint/${id}`)
+    return this.services.httpClient.get<TodoResponse>(`${this.endpoint}/${id}`)
     .pipe(map(r=> r.data))
   }
 
   putTodo(pyload: Todo, id: number) {
-    return this.services.httpClient.put<TodoResponse>(`this.endpoint/${id}`, pyload)
+    return this.services.httpClient.put<TodoResponse>(`${this.endpoint}/${id}`, pyload)
        .pipe(map(r=> r.data))
   }
 
   deleteTodo(id: number) {
-    return this.services.httpClient.delete<void>(`this.endpoint/${id}`)
-      .pipe(map(()=> null))
+    return this.services.httpClient.delete<void>(`${this.endpoint}/${id}`)
+      .pipe(map(()=> id))
   }
   
   completeTodo(pyload: Todo, id: number) {
-    return this.services.httpClient.put<TodoResponse>(`this.endpoint/toggle-completion/${id}`, pyload)
+    return this.services.httpClient.put<TodoResponse>(`${this.endpoint}/toggle-completion/${id}`, pyload)
+      .pipe(map(r=> r.data))
   }
 
   getTodoHeatMap(query: Partial<HeatMapFilter>) {
