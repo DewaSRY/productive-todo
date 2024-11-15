@@ -1,0 +1,37 @@
+<div class="relative px-8 ">
+    <button class="absolute left-0 top-1/2 -translate-y-1/2  disabled:text-text/60" 
+            [routerLink]="['.']" 
+            [queryParams]="{page : getPageNumber(prevLinks.url)}" 
+            [disabled]="prevLinks.url === null"
+            >
+        <lucide-icon name="chevrons-left"></lucide-icon>
+    </button>
+
+    <ul class="flex-1 flex  justify-between mx-1 items-center">
+   
+        @for (item of links; track $index) {
+            <li>
+                <button 
+                    [routerLink]="['.']" 
+                    [queryParams]="{page : getPageNumber(item.url)}" 
+                    [disabled]="item.url === null || item.active"
+                    class="py-2 px-4 rounded-lg hover:bg-primary-one/50 duration-300 ease-in-out"
+                    [ngClass]="{
+                        'bg-primary-two/90 text-text/60' : item.active,
+                        'hover:bg-primary-one/50 text-text/60' : item.url !== null
+                        }"
+                    >
+                    {{item.label}}
+                </button>
+            </li>
+        }
+
+    </ul>
+
+    <button class="absolute right-0 top-1/2 -translate-y-1/2 disabled:text-text/60" 
+            [routerLink]="['.']" 
+            [queryParams]="{page : getPageNumber(nextLink.url)}" 
+            [disabled]="nextLink.url === null">
+        <lucide-icon name="chevrons-right"></lucide-icon>
+    </button>
+</div>

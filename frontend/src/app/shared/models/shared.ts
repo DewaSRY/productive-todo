@@ -1,6 +1,3 @@
-export interface Shared {
-}
-
 export interface PaginationResponse<T> {
     data:  T[];
     links: Links;
