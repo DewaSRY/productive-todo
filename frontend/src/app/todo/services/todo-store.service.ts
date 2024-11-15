@@ -6,7 +6,7 @@ import { TodoService } from './todo.service';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TodoItemService } from './todo-item.service';
-import { Link } from "@app/shared/models/shared"
+import { Meta } from "@app/shared/models/shared"
 
 type Type="add" | "remove" | "clear"
 
@@ -23,8 +23,8 @@ interface Command{
 export class TodoStoreService {
   private readonly todoData$!: Subject<Command>
   readonly todoDataStore$!: Observable<TodoRecord[]>
-  readonly metaData = new BehaviorSubject<Link[]>([])
   readonly isFetching$ = new BehaviorSubject<boolean>(false)
+  metaData:Meta | null =null 
 
   private readonly services = {
     destroyRef: inject(DestroyRef),
@@ -56,7 +56,6 @@ export class TodoStoreService {
         map(data=> data.length <= 10 ? data : data.slice(0,10))
     )
 
-    
     this.setUpQueryData()
 
     todoItem.todoOutput$
@@ -89,6 +88,7 @@ export class TodoStoreService {
       .pipe(
         takeUntilDestroyed(destroyRef),
         map(data => {
+
           let name= data.get("name") || undefined
           let from= data.get("from") || undefined
           let to= data.get("to") || undefined
@@ -105,7 +105,7 @@ export class TodoStoreService {
           return todoServices.getAllTodo(query)
             .pipe(finalize(()=>this.isFetching$.next(false)))
         }),
-        tap((response)=> this.metaData.next(response.meta.links)),
+        tap((response)=> this.metaData = response.meta),
         switchMap(response => from(response.data))
       )
       .subscribe((data) => {

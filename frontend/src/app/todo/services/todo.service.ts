@@ -5,13 +5,16 @@ import { CalendarData, HeatMapFilter } from "@app/todo/model/heat-map-calender"
 import { Todo,TodoRecord, TodoResponse } from "@app/todo/model/todo"
 import { TodoFilterRequest } from "@app/todo/model/todo-request"
 import { PaginationResponse } from "@app/shared/models/shared"
-import { map } from 'rxjs';
+import { map, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
   private readonly endpoint = `${environment.domain}/todo`
+
+  prevQurtal = ""
+  prevCelenderData:CalendarData[]= []
 
   private readonly services = {
     httpClient: inject(HttpClient)
@@ -44,7 +47,6 @@ export class TodoService {
     return this.services.httpClient.put<TodoResponse>(`${this.endpoint}/${id}`, pyload)
        .pipe(map(r=> r.data))
   }
-
   deleteTodo(id: number) {
     return this.services.httpClient.delete<void>(`${this.endpoint}/${id}`)
       .pipe(map(()=> id))
@@ -56,13 +58,21 @@ export class TodoService {
   }
 
   getTodoHeatMap(query: Partial<HeatMapFilter>) {
+    if (query.cuartel === this.prevQurtal) {
+      return of(this.prevCelenderData)
+    }
+    if (query.cuartel) {
+      this.prevQurtal = query.cuartel
+    }
+
     return this.services.httpClient
       .get<CalendarData[]>(`${this.endpoint}/todo-heatmap`, {
         params: {
           cuartel: query.cuartel || "Q1",
           year: query.year || new Date().getFullYear().toString()
           }
-        })
+      })
+    .pipe(tap(data=> this.prevCelenderData = data))
   }
 
 }
