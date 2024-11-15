@@ -1,0 +1,28 @@
+
+<ul class="flex gap-1 flex-wrap">
+    <li>
+        <a [routerLink]="['.']" [queryParams]="{ priority: ''}" class="priority-filter extra-small hover:brightness-50 ease-in-out duration-300 shadow-2xl" [ngClass]="{ 'bg-gray-500/50 hover:brightness-100' :currentRoute=== '' }">
+            All 
+        </a>
+    </li>
+    <li>
+        <a [routerLink]="['.']" [queryParams]="{ priority: 'LOW'}" [appProprity]="'LOW'" class="priority-filter" [ngClass]="{ 'bg-gray-500/50 hover:brightness-100' :currentRoute=== 'LOW'}" >
+            LOW 
+        </a>
+    </li>
+    <li>
+        <a [routerLink]="['.']" [queryParams]="{ priority: 'NORMAL'}" [appProprity]="'NORMAL'" class="priority-filter" [ngClass]="{ 'bg-gray-500/50 hover:brightness-100' :currentRoute=== 'NORMAL'}">
+            NORMAL 
+        </a>
+    </li>
+    <li>
+        <a [routerLink]="['.']" [queryParams]="{ priority: 'MID'}" [appProprity]="'MID'" class="priority-filter " [ngClass]="{ 'bg-gray-500/50 hover:brightness-100' :currentRoute=== 'MID'}">
+            MID 
+        </a>
+    </li>
+    <li>
+        <a [routerLink]="['.']" [queryParams]="{ priority: 'HIGHT'}" [appProprity]="'HIGHT'" class="priority-filter" [ngClass]="{ 'bg-gray-500/50 hover:brightness-100' :currentRoute=== 'HIGHT'}">
+            HIGHT 
+        </a>
+    </li>
+</ul>

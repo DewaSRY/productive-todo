@@ -1,0 +1,20 @@
+
+
+<ul class="flex gap-1 flex-wrap">
+    <li>
+        <a [routerLink]="['.']" [queryParams]="{ is_completed: ''}" mat-raised-button [disabled]="currentRoute===''">
+            All 
+        </a>
+    </li>
+    <li>
+        <a [routerLink]="['.']" [queryParams]="{ is_completed: true}" mat-raised-button [disabled]="currentRoute==='true'">
+            Complited 
+        </a>
+    </li>
+    <li>
+        <a [routerLink]="['.']" [queryParams]="{ is_completed: false}" mat-raised-button [disabled]="currentRoute==='false'">
+            Not Complited 
+        </a>
+    </li>
+</ul>
+

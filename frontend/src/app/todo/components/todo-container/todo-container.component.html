@@ -1,0 +1,42 @@
+@if (isFetching | async) {
+    <ul>
+        @for (item of [0,1,2,3,4,5,6,7,8,9]; track $index) {
+            <li>
+                <div class="shimmer h-[40px] my-4 "></div>
+            </li>
+        } 
+    </ul>
+} @else {
+    <ul >
+        @for (item of todoItems$ | async ; track $index) {
+          <li  class="my-2 border border-text/10 rounded-md p-2  relative">
+
+            <div class="absolute left-2 top-1/2 -translate-y-1/2 cursor-pointer ">
+                <span class="block w-[15px] h-[15px] hover:brightness-50 duration-200" [ngClass]="{
+                    'bg-black/90 ' : item.is_completed,
+                    'bg-gray-500/90' : !item.is_completed
+                }" ></span>
+            </div>
+
+            <div class="flex justify-between flex-col xl:flex-row ml-8 py-1 px-2 cursor-pointer rounded-xl hover:bg-primary-one/50 duration-300  ease-out" [matMenuTriggerFor]="beforeMenu" >
+                <p class="w-5/6" [ngClass]="{'line-through' :item.is_completed }" >{{item.title}}</p>
+                <div class="flex justify-between gap-2 xl:w-1/6 extra-small ">
+                    <div class="py-1 px-2 rounded-2xl flex items-center justify-center" [appProprity]="item.priority"   >{{item.priority}}</div>
+                    <div class=" text-text/60" >{{item.created_at| date}}</div>
+                </div>
+            </div>
+
+            <mat-menu #beforeMenu="matMenu" xPosition="before">
+                <a [routerLink]="[ '/todo', item.id]" target="_blank" mat-menu-item >
+                    Edit 
+                </a>
+                <button (click)="handleDeleteTodo(item)" mat-menu-item>
+                    Delete 
+                </button>
+            </mat-menu>
+          </li>
+        }
+    </ul>
+}
+
+
