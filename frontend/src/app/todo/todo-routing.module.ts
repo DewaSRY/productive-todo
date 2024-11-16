@@ -5,12 +5,15 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MyCalenderComponent } from './components/my-calender/my-calender.component';
 import { MyTaskComponent } from './components/my-task/my-task.component';
 import { userAuthGuard } from "@app/auth/guard/user-auth.guard"
+import { TodoItemsComponent } from './components/todo-items/todo-items.component';
+
+import { todoItemResolver } from "./resolver/todo-item.resolver"
 
 const routes: Routes = [
   {
     path: "",
     component: HomeTodoComponent,
-    // canActivate: [userAuthGuard],
+    canActivate: [userAuthGuard],
     children: [
       {
         path: "dashboard",
@@ -26,6 +29,14 @@ const routes: Routes = [
       }
     ]
   },
+  {
+    path: ":todoId",
+    component: TodoItemsComponent,
+    canActivate: [userAuthGuard],
+    resolve: {
+      todoItem: todoItemResolver
+    }
+  }
 ];
 
 @NgModule({
