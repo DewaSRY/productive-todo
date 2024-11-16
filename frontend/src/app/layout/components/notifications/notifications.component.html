@@ -1,6 +1,4 @@
-
-
-<div class="mx-1 flex flex-col-reverse gap-1">
+<div class="mx-1 flex flex-col-reverse gap-1 shadow-2xl">
     @for (item of messages$ | async; track $index) {
         <mat-card [ngClass]="{'error' : item.type === 'error'}" >
             <mat-card-actions align="end">

@@ -103,14 +103,13 @@ export class TodoStoreService {
         switchMap(query => {
           this.isFetching$.next(true)
           this.todoData$.next({ type: "clear" })
-          
           return todoServices.getAllTodo(query)
             .pipe(
               tap((response)=> this.metaData = response.meta),
               finalize(() => this.isFetching$.next(false))
             )
         }),
-        switchMap(response => from(response.data))
+        switchMap(response => from(response.data.reverse()))
       )
       .subscribe((data) => {
         this.todoData$.next({

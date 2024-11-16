@@ -41,7 +41,10 @@ export class TodoItemService {
           switch (data.type) {
             case "add":
               return todoServices.postNewTodo(data.todo)
-                    .pipe(map((data)=>({todo:data, type: "add"}) as OutputCommand))
+                .pipe(
+                  tap(() => notification.addSuccess("Create Todo")),
+                  map((data) => ({ todo: data, type: "add" }) as OutputCommand)
+                )
             case "update":
               return todoServices.putTodo(data.todo, data.todo.id)
                      .pipe(map((data)=>({todo:data, type: "add"}) as OutputCommand));
