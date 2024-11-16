@@ -38,6 +38,7 @@ class TodoController extends Controller
                ->dateRangeFilter($todoFilterRequest->input("fromt"),$todoFilterRequest->input("to"))
                ->isCompleted($todoFilterRequest->input("is_completed"))
                ->priority($todoFilterRequest->priority)
+               ->searchName($todoFilterRequest->title)
                ->latest()
                ->paginate($todoFilterRequest->limit)
         );

@@ -1,7 +1,7 @@
 import { Priority } from "./todo"
 
 export interface TodoFilterRequest{
-    name?: string
+    title?: string
     from?: string;
     to?: string;
     is_completed?: boolean | string;

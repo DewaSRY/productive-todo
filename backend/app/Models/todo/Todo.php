@@ -49,9 +49,19 @@ class Todo extends Model
         if($priority !== null && in_array($priority,array_keys(Priority::$data))){
             return $query->where("priority", $priority );
         }
-        
+
         return $query;
     }
+    public function scopeSearchName(
+        EloquentBuilder|QueryBuilder $query, ?string $name
+    ):EloquentBuilder|QueryBuilder{
+        if($name !== null){
+            return $query->where("title", "like", '%' . $name . '%' )
+                    ->orWhere("description", "like", '%' . $name . '%' )
+                    ->orWhere("priority", "like", '%' . $name . '%' );
+        }
 
-  
+        return $query;
+    }
+    
 }

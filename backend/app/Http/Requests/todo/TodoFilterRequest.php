@@ -34,7 +34,7 @@ class TodoFilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name"=> "nullable|string",
+            "title"=> "nullable|string",
             "fromt"=> "nullable|date",
             "to"=> "nullable|date",
             "is_completed"=> "nullable|boolean",

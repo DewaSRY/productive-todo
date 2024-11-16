@@ -23,7 +23,7 @@ export class TodoService {
   getAllTodo(query:Partial<TodoFilterRequest>) {
     return this.services.httpClient.get<PaginationResponse<TodoRecord>>(this.endpoint, {
       params: {
-        name: query.name || "",
+        title: query.title || "",
         from: query.from || "",
         to: query.to || "",
         is_completed: query.is_completed || "",

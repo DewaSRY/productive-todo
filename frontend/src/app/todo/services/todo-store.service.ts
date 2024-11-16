@@ -90,7 +90,7 @@ export class TodoStoreService {
         takeUntilDestroyed(destroyRef),
         map(data => {
 
-          let name= data.get("name") || undefined
+          let title= data.get("title") || undefined
           let from= data.get("from") || undefined
           let to= data.get("to") || undefined
           let is_completed = data.get("is_completed")  || undefined
@@ -98,7 +98,7 @@ export class TodoStoreService {
           let priority = data.get("priority") || undefined
           let page= data.get("page") || undefined
 
-          return {name, from, to, is_completed,priority, limit, page} as TodoFilterRequest
+          return {title, from, to, is_completed,priority, limit, page} as TodoFilterRequest
         }),
         switchMap(query => {
           this.isFetching$.next(true)
