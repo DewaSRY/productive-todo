@@ -24,6 +24,7 @@ export class TodoStoreService {
   private readonly todoData$!: Subject<Command>
   readonly todoDataStore$!: Observable<TodoRecord[]>
   readonly isFetching$ = new BehaviorSubject<boolean>(false)
+
   metaData:Meta | null =null 
 
   private readonly services = {
@@ -95,17 +96,20 @@ export class TodoStoreService {
           let is_completed = data.get("is_completed")  || undefined
           let limit = data.get("limit") || undefined
           let priority = data.get("priority") || undefined
+          let page= data.get("page") || undefined
 
-          return {name, from, to, is_completed,priority, limit} as TodoFilterRequest
+          return {name, from, to, is_completed,priority, limit, page} as TodoFilterRequest
         }),
         switchMap(query => {
           this.isFetching$.next(true)
           this.todoData$.next({ type: "clear" })
           
           return todoServices.getAllTodo(query)
-            .pipe(finalize(()=>this.isFetching$.next(false)))
+            .pipe(
+              tap((response)=> this.metaData = response.meta),
+              finalize(() => this.isFetching$.next(false))
+            )
         }),
-        tap((response)=> this.metaData = response.meta),
         switchMap(response => from(response.data))
       )
       .subscribe((data) => {

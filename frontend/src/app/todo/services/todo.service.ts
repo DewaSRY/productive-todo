@@ -28,7 +28,8 @@ export class TodoService {
         to: query.to || "",
         is_completed: query.is_completed || "",
         limit: query.limit || "",
-        priority: query.priority || ""
+        priority: query.priority || "",
+        page: query.page || ""
       }
     })
   }

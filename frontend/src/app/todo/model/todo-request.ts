@@ -6,5 +6,6 @@ export interface TodoFilterRequest{
     to?: string;
     is_completed?: boolean | string;
     limit?: number
-    priority: Priority
+    priority: Priority,
+    page?: string
 }
