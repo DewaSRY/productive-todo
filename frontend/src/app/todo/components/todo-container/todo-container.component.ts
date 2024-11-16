@@ -1,4 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TodoRecord, Todo } from '@app/todo/model/todo';
 import { TodoItemService } from '@app/todo/services/todo-item.service';
 import { TodoStoreService } from '@app/todo/services/todo-store.service';
@@ -15,7 +16,8 @@ export class TodoContainerComponent  {
   
   private readonly services = {
     todoStore: inject(TodoStoreService),
-    todoItem: inject(TodoItemService)
+    todoItem: inject(TodoItemService),
+    router: inject(Router)
   }
   constructor() {
     const { todoStore } = this.services
@@ -33,4 +35,11 @@ export class TodoContainerComponent  {
     todoItem.togleComplitionTodo(todoItem.todoMapper(todo))
   }
   
+  handCreateNewTodo() {
+    const { todoItem, router } = this.services
+    todoItem.createTodo()
+    router.navigate([], {queryParams: {}})
+    
+  }
+
 }

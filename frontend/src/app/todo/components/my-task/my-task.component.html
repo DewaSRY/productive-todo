@@ -1,1 +1,59 @@
-<p>my-task works!</p>
+
+
+<section class="w-full py-8 px-4">
+    <h2 class="my-8">My Task</h2>
+
+    <form [formGroup]="formGroup"  class="relative mx-2 ">
+        <span class="block absolute left-2 top-1/2 -translate-y-1/2 text-text/70">
+            <lucide-icon name="search"></lucide-icon>
+        </span>
+        <input type="text" class="w-full py-4 px-10 rounded-lg" 
+               [formControl]="formGroup.controls.search"
+               placeholder="Search">
+        @if (formGroup.value.search) {
+            <button  class="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:scale-95 duration-200 ease-out rounded-xl hover:bg-primary-one/70" aria-label="Clear" (click)="handleClear()" >
+                <lucide-icon name="x"></lucide-icon>
+            </button>
+        }
+    </form>
+
+    @if (isHavePagination) {
+        <div class="flex flex-wrap gap-x-4 gap-y-2 py-8">
+            <div class="my-4">
+                <h5 class="bold block mb-4 ">
+                    Completed
+                </h5>
+                <app-todo-completed-filter/>
+            </div>
+    
+            <div class="my-4">
+                <h5 class="bold block mb-4 ">
+                    Priority
+                </h5>
+                <app-todo-priority-filter/>
+            </div>
+        </div>
+    }
+
+    <div class=" px-4">
+        <app-todo-container/>
+    </div>
+
+
+    @if (isHavePagination) {
+        <div class="max-w-5xl mx-auto my-8">
+            @if (metaData) {
+                <app-paginator [setLinks]="metaData" />
+            }@else {
+                <div class="shimmer h-[50px] "></div>
+            }
+        </div>
+        
+        <div>
+            <button (click)="handleCreateNewTodo()" mat-flat-button> 
+                Create new Task
+            </button>
+        </div>
+    }
+
+</section>
