@@ -43,8 +43,8 @@ html, body { height: 100%; }
      --priority-three: #D7D9F4;
 
      --natural-one: #F8F6F4;
-     --natural-two: #f7f7f7;
-     --natural-three: #ebebeb;
+     --natural-two: #fbf7f4;
+     --natural-three:  #ebe6e0;;
 
      --shimmer-thickness: 50%;
      
@@ -53,6 +53,11 @@ body {
      margin: 0;
      font-family: Inter, "Helvetica Neue", sans-serif; 
      background-color: var(--natural-two);
+}
+
+section {
+     background-color: var(--natural-two);
+     margin: 0.5rem 0.25rem 0 0.25rem;
 }
 
 

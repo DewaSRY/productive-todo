@@ -34,9 +34,9 @@ module.exports = {
         },
 
         natural: {
-          one: '#F8F6F4',
-          two: '#E3F4F4',
-          three: '#D2E9E9',
+          one: 'var(--natural-one)',
+          two: 'var(--natural-two)',
+          three: 'var(--natural-three)',
         },
 
       },
