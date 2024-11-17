@@ -33,10 +33,10 @@ export class SideNavComponent implements OnInit{
       title: "My task",
       url: "my-task"
     },
-    {
-      title: "My Calender",
-      url: "my-calender"
-    },
+    // {
+    //   title: "My Calender",
+    //   url: "my-calender"
+    // },
   ]
 
   private readonly services = {

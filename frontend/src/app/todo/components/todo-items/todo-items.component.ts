@@ -30,7 +30,7 @@ export class TodoItemsComponent implements OnInit, OnDestroy {
 
   formGroup = new FormGroup({
     title: new FormControl(""),
-    description: new FormControl("", [NgxValidator.required()]),
+    description: new FormControl(""),
     is_completed: new FormControl(false),
     priority: new FormControl("NORMAL")
   });
@@ -52,7 +52,9 @@ export class TodoItemsComponent implements OnInit, OnDestroy {
   }
 
   setPriority(priority: string) {
-    this.formGroup.value.priority= priority
+    this.formGroup.patchValue({
+      priority: priority
+    })
   }
 
   get isCompleted() {
@@ -60,7 +62,9 @@ export class TodoItemsComponent implements OnInit, OnDestroy {
   }
 
   handleToggleCompleted() {
-    this.formGroup.value.is_completed = !this.isCompleted
+    this.formGroup.patchValue({
+      is_completed :  !this.isCompleted
+    })
   }
 
   private setUpTodoItem() {
