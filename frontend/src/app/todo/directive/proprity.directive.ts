@@ -6,7 +6,7 @@ import { Priority } from '@app/todo/model/todo'
 })
 export class ProprityDirective {
 
-  @Input() set appProprity(priority: Priority) {
+  @Input() set appProprity(priority: Priority | string) {
     this.setTailwindClassesBasedOnPriority(priority);
   }
 
@@ -15,7 +15,7 @@ export class ProprityDirective {
     renderer: inject(Renderer2)
   }
 
-  private setTailwindClassesBasedOnPriority(priority: Priority): void {
+  private setTailwindClassesBasedOnPriority(priority: Priority | string): void {
     const { el, renderer } = this.services
 
     renderer.addClass(el.nativeElement, 'text-slate-700');

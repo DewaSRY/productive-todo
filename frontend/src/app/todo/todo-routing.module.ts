@@ -32,7 +32,7 @@ const routes: Routes = [
   {
     path: ":todoId",
     component: TodoItemsComponent,
-    canActivate: [userAuthGuard],
+    // canActivate: [userAuthGuard],
     resolve: {
       todoItem: todoItemResolver
     }

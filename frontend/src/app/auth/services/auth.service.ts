@@ -19,6 +19,7 @@ export interface UniquePropertyResponse{ is_unique: boolean}
 })
 export class AuthService {
   private readonly endpoint = `${environment.domain}/user`
+  
   user$= new BehaviorSubject<User| null>(null)
   private readonly services = {
     httpClient: inject(HttpClient)
