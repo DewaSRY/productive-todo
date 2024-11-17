@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
-            "customWebpackConfig":{
+            "customWebpackConfig": {
               "path": "src/custom-webpack.config.ts"
             },
             "main": "src/main.ts",
@@ -31,8 +31,13 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public",
+                "input": "src/assets",
                 "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "public",
+                "output": "/public"
               }
             ],
             "styles": [
@@ -95,8 +100,13 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public",
+                "input": "src/assets",
                 "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "public",
+                "output": "/public"
               }
             ],
             "styles": [

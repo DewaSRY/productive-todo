@@ -10,7 +10,7 @@ html, body { height: 100%; }
 
 :root{
      --head-one: 47.78px;
-     --head-two: 39.81px;
+     --head-two: 35.81px;
      --head-three: 33.18px;
 
      --heading-one: 27.65px;
@@ -97,10 +97,6 @@ h1,h2,h3,h4,h5,h6{
 }
 
 
-*{
-     font-size: var(--para-small) ;
-     font-weight: 500;
-}
 
 .extra-small{
      font-size: var(--para-extra-small);

@@ -6,12 +6,11 @@ import { map } from 'rxjs';
 export const userAuthGuard: CanActivateFn = (route, state) => {
   const userServices = inject(AuthService)
   const router= inject(Router)
-  return userServices.user$.asObservable()
+  return userServices.getUserSignedin()
     .pipe(map((user) => {
         if (user === null) {
-          router.navigateByUrl("/")
-          return false
-        }
+          return router.createUrlTree(['/']);
+      }
         return true
       }));  
 };

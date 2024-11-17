@@ -1,27 +1,161 @@
 <app-navigation/>
 
-<main class="mt-[80px]">
-    <p>home works!</p>
-    <h1>
-        head one
-    </h1>
-    
-    <h2>
-        head two
-    </h2>
-    <h3>
-        head three
-    </h3>
-    
-    <h4>
-        head four
-    </h4>
-    
-    <h5>
-        head five
-    </h5>
-    
-    <h6>
-        head six
-    </h6>
+<main class=" min-h-[800px] bg-natural-two rounded shadow-xl flex items-center justify-center">
+  <div class=" max-w-5xl mx-auto px-4 ">
+    <div class=" grid lg:grid-cols-2">
+        <div class="max-w-[600px] px-4">
+            <h1 class="">
+                Planing your day wiht 
+                <span class="text-primary-three ">
+                    Productive TODO
+                </span>
+            </h1>
+            <p class="mt-[50px] ">
+                Productive TODO helps you stay on top of your tasks with a simple, clear, and intuitive design made just for you
+            </p>
+            <div class="mt-16 ">
+                <button *ngIf="$user | async;else dashboardAct" role="link" class="w-11/12 mx-auto py-4 px-8 font-bold text-slate-700  rounded-lg shadow-lg bg-primary-two hover:bg-primary-three/50 duration-300 ease-out ">
+                    MY TODO
+                </button>
+                <ng-template #dashboardAct>
+                    <button class="w-11/12 mx-auto py-4 px-8 font-bold text-slate-700  rounded-lg shadow-lg bg-secondary-two hover:bg-secondary-three/50 duration-300 ease-out ">
+                        Create My Accoutn 
+                    </button>
+                </ng-template>
+            </div>
+       </div>
+
+        <div class="hidden lg:flex items-end justify-end">
+            <img src="assets/logo.png" alt="my-logo" width="400" height="600">
+        </div>     
+    </div>
+  </div>
 </main>
+
+<section class=" py-4 lg:min-h-[600px] flex justify-center items-center rounded-lg">
+    <div class="px-4 max-w-5xl mx-auto">
+        <h2>
+            Stay Organized, Focused, and Productive
+        </h2>
+        <p class="my-2">
+            Discover How Productive TODO Solves Common Productivity Challenges and Helps You Stay Organized, Focused, and Consistently Achieve Your Goals
+        </p>
+        <div class="mt-[40px]">
+            <mat-list >
+                @for (item of problems; track $index) {
+                  <mat-list-item class="relative" >
+                      <span class="block w-[15px] h-[15px] hover:brightness-50 duration-200 bg-gray-600/90 absolute left-0 top-1/2 -translate-y-1/2"></span>
+                    <div class="ml-4" matListItemTitle>{{item}}</div>
+                  </mat-list-item>
+                }
+            </mat-list>
+        </div>
+    </div>
+</section>
+
+<section class="my-10 py-24 lg:min-h-[600px] lg:py-4 rounded-lg">
+    <div class="px-4 max-w-5xl mx-auto">
+
+        <div class="lg:grid lg:grid-cols-2">
+            <h2 class="mb-10">
+                Take Control of Your Day Effortlessly
+            </h2>
+            <p class="block my-2 ml-4 max-w-[600px] text-text/90 ">
+                We all know how hard it can be to keep up with everything life throws at us. That&apos;s where Productive TODO comes in. It’s not just another to-do list—it’s a tool that works with you, helping you focus on what matters most. From organizing tasks to tracking your progress, this app simplifies your day so you can achieve more without feeling overwhelmed. No complicated features, no distractions—just a straightforward way to stay productive and in control. Whether it’s work, personal goals, or daily errands, Productive TODO makes it easy to get things done.
+            </p>
+        </div>
+
+        <div class="mt-16 flex flex-col justify-start items-start gap-4 ">
+            <a href="https://www.linkedin.com/in/dewa-surya/" target="_blank" class="" mat-button> 
+                Dewa Surya Ariesta
+                <lucide-icon class="inline-block ml-2" name="move-right"></lucide-icon>
+            </a>
+            <button *ngIf="$user | async;else dashboardAct" role="link" class="w-[calc(min(600px,90%))] lg:w-full  py-4 px-8 font-bold text-slate-700  rounded-lg shadow-lg bg-primary-two hover:bg-primary-three/50 duration-300 ease-out ">
+               Manage MY TODO
+            </button>
+            <ng-template #dashboardAct>
+                <button class="w-[calc(min(600px,90%))] lg:w-full  py-4 px-8 font-bold text-slate-700  rounded-lg shadow-lg bg-secondary-two hover:bg-secondary-three/50 duration-300 ease-out ">
+                    Create My TODO Accoutn 
+                </button>
+            </ng-template>
+        </div>
+    </div>
+</section>
+
+
+<section class="my-10 py-24 lg:min-h-[600px] lg:py-4 rounded-lg">
+    <div class="px-4 max-w-7xl mx-auto">
+        <h2 class="">
+            Why use
+            <span class="text-primary-three ">
+                Productive TODO ?
+            </span>
+        </h2>
+        <div class="mt-[40px]">
+            <ul class="grid lg:grid-cols-3 gap-4" >
+                @for (item of whyUs; track $index) {
+                  <li class="px-4 py-16 border rounded hover:bg-primary-two/50 duration-300 ease-out" >
+                      <div class="ml-4 ">
+                         <h4 class="break-words text-text/60">
+                            {{item.title}}
+                         </h4>
+                    </div>
+                     <p class="px-4 mt-8 text-text/90 ">{{item.description}}</p>
+                  </li>
+                }
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="my-10 py-24 lg:min-h-[600px] lg:py-4 rounded-lg">
+    <div class="px-4 max-w-7xl mx-auto">
+
+        <h2 class="">
+            How to use
+            <span class="text-primary-three ">
+                Productive TODO ?
+            </span>
+        </h2>
+
+        <hr class="bg-text/80 h-2 max-w-[800px] ">
+        <div class="mt-[40px]">
+            <ul class="" >
+                @for (item of howToUse; track $index) {
+                  <ol class="mb-12" >
+                      <div class="ml-4 ">
+                         <h4 class="break-words text-text/60">
+                            {{$index + 1}} {{item.title}}
+                         </h4>
+                    </div>
+                     <p class="pl-6 mt-2 text-text/90 max-w-[800px] ">{{item.description}}</p>
+                  </ol>
+                }
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+<footer>
+    <div class="bg-natural-three ">
+        <div class="max-w-5xl mx-auto pt-12 pb-[150px] px-4">
+            <h2 >
+                About Us
+            </h2>
+            <p class="text-text/90 mt-8">
+                &quot;Productive TODO is designed to help you stay organized and achieve your goals. With an intuitive task management system, we make productivity simple and effective.&quot;
+            </p>
+        </div>
+    </div>
+    <div class="bg-text">
+        <div class="mx-auto py-8 px-4">
+            <a href="https://www.linkedin.com/in/dewa-surya/" target="_blank" class="" mat-button> 
+                <span class="text-2xl text-primary-one">
+                    Dewa Surya Ariesta
+                </span>
+                <lucide-icon class="inline-block ml-2" name="move-right"></lucide-icon>
+            </a>
+        </div>
+    </div>
+</footer>
