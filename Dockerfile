@@ -1,39 +1,61 @@
-# Stage 1: Builder
-FROM composer:2.7 AS composer
+# Build stage: Install dependencies and set up the environment
+FROM php:8.2-apache AS build
 
-WORKDIR /app
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y libzip-dev zip curl && \
+    docker-php-ext-install pdo_mysql zip && \
+    a2enmod rewrite && \
+    rm -rf /var/lib/apt/lists/*  # Clean up APT cache to reduce image size
 
-# Copy composer files and install dependencies
-COPY backend/composer.json backend/composer.lock /app/
-RUN composer install --no-dev --no-scripts --prefer-dist --no-progress --optimize-autoloader
+# Set Apache document root to Laravel's public directory
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
+    /etc/apache2/sites-available/*.conf \
+    /etc/apache2/apache2.conf \
+    /etc/apache2/conf-available/*.conf
 
-# Copy the rest of the application
-COPY backend /app
+# Copy application code into the container (from your local filesystem)
+COPY ./backend /var/www/html
 
-# Generate optimized autoload files
-RUN composer dump-autoload --optimize
+# Set the working directory
+WORKDIR /var/www/html
 
-# Stage 2: Application
-FROM php:8.2-fpm
+# Install Composer and project dependencies
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    composer install --no-dev --optimize-autoloader
 
-# Install required PHP extensions and dependencies
-RUN apt-get update && apt-get install -y \
-    zip unzip curl libpng-dev libjpeg-dev libfreetype6-dev libonig-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_mysql mbstring gd
+# Production stage: Apache image
+FROM php:8.2-apache AS production
 
-# Set working directory
-WORKDIR /var/www
+# Install necessary Apache modules and extensions
+RUN apt-get update && \
+    apt-get install -y libzip-dev zip && \
+    docker-php-ext-install pdo_mysql zip && \
+    a2enmod rewrite && \
+    rm -rf /var/lib/apt/lists/*  # Clean up APT cache
 
-# Copy files from the builder stage
-COPY --from=composer /app /var/www
+# Set Apache document root to Laravel's public directory
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
+    /etc/apache2/sites-available/*.conf \
+    /etc/apache2/apache2.conf \
+    /etc/apache2/conf-available/*.conf
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www \
-    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+# Copy the vendor directory and other needed assets from the build stage
+COPY --from=build /var/www/html /var/www/html
 
-# Expose the default port
-EXPOSE 9000
+# Set permissions for storage and bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Start PHP-FPM to serve the app
-CMD ["php-fpm"]
+# Expose Apache's port
+EXPOSE 80
+
+# Set the working directory
+WORKDIR /var/www/html
+
+# Ensure the container runs with the proper permissions
+USER www-data
+
+# Run Apache in the foreground
+CMD ["apache2-foreground"]
