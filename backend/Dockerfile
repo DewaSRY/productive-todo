@@ -1,40 +1,38 @@
-# Stage 1: Build application
-FROM composer:2.7 as builder
+# Stage 1: Builder
+FROM composer:2.7 AS composer
 
 WORKDIR /app
 
-# Copy application files
+# Copy composer files and install dependencies
+COPY composer.json composer.lock /app/
+RUN composer install --no-dev --no-scripts --prefer-dist --no-progress --optimize-autoloader
+
+# Copy the rest of the application
 COPY . /app
 
-# Install dependencies and optimize autoloader
-RUN composer install --no-dev --optimize-autoloader
+# Generate optimized autoload files
+RUN composer dump-autoload --optimize
 
-# Stage 2: Production runtime
+# Stage 2: Application
 FROM php:8.2-fpm
 
 # Install required PHP extensions and dependencies
 RUN apt-get update && apt-get install -y \
-    nginx \
-    zip unzip curl libpng-dev libjpeg-dev libfreetype6-dev \
+    zip unzip curl libpng-dev libjpeg-dev libfreetype6-dev libonig-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_mysql mbstring gd \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    && docker-php-ext-install pdo pdo_mysql mbstring gd
 
 # Set working directory
 WORKDIR /var/www
 
-# Copy built application from builder stage
-COPY --from=builder /app /var/www
+# Copy files from the builder stage
+COPY --from=composer /app /var/www
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-# Copy Nginx configuration
-COPY ./nginx.conf /etc/nginx/nginx.conf
+# Expose the default port
+EXPOSE 9000
 
-# Expose HTTP port
-EXPOSE 80
-
-# Start PHP-FPM and Nginx
-CMD ["sh", "-c", "php-fpm & nginx -g 'daemon off;'"]
+CMD ["php-fpm"]

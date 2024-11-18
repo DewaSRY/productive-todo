@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {provideHttpClient, withInterceptors} from "@angular/common/http"
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,6 +29,7 @@ import { LayoutModule } from './layout/layout.module';
     provideHttpClient(
       withInterceptors([credentialsInterceptor])
     ),
+    provideClientHydration(),
 
   ]
 })
