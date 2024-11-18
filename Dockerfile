@@ -4,11 +4,11 @@ FROM composer:2.7 AS composer
 WORKDIR /app
 
 # Copy composer files and install dependencies
-COPY composer.json composer.lock /app/
+COPY backend/composer.json backend/composer.lock /app/
 RUN composer install --no-dev --no-scripts --prefer-dist --no-progress --optimize-autoloader
 
 # Copy the rest of the application
-COPY . /app
+COPY backend /app
 
 # Generate optimized autoload files
 RUN composer dump-autoload --optimize
@@ -35,4 +35,5 @@ RUN chown -R www-data:www-data /var/www \
 # Expose the default port
 EXPOSE 9000
 
+# Start PHP-FPM to serve the app
 CMD ["php-fpm"]
